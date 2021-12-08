@@ -1,13 +1,12 @@
 package com.coderscampus;
 
 public class UserService {
-	UserPojo txt = new UserPojo();
 	static int userIndex;
-	
+
 	public static String verifyUsername(String inputUsername) {
-		UserPojo txt = new UserPojo();
+		UserPojo data = new UserPojo();
 		String usernameValidity = "";
-		String[] validUser = txt.username;
+		String[] validUser = data.username;
 		for (int i = 0; i < validUser.length; i++) {
 			if (inputUsername.equalsIgnoreCase(validUser[i])) {
 				usernameValidity = "valid";
@@ -19,10 +18,10 @@ public class UserService {
 		}
 		return usernameValidity;
 	}
-	
+
 	public static String verifyPassword(String inputPassword) {
-		UserPojo txt = new UserPojo();
-		String[] validPassword = txt.password;
+		UserPojo data = new UserPojo();
+		String[] validPassword = data.password;
 		String passwordValidity = "";
 		for (int i = 0; i < validPassword.length; i++) {
 			if (inputPassword.equals(validPassword[i]) && i == userIndex) {
@@ -34,10 +33,10 @@ public class UserService {
 		}
 		return passwordValidity;
 	}
-	
+
 	public static String name() {
-		UserPojo txt = new UserPojo();
-		String name = txt.name[userIndex];
+		UserPojo data = new UserPojo();
+		String name = data.name[userIndex];
 		return name;
 	}
 }
