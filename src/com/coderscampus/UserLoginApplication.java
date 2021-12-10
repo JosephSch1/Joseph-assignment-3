@@ -5,47 +5,35 @@ import java.util.Scanner;
 public class UserLoginApplication {
 
 	public static void main(String[] args) {
-		int attempts = 1;
+		int attempts = 0;
 		UserService app = new UserService();
 		Scanner sc = new Scanner(System.in);
-		String userValidity = "invalid";
-		String passValidity = "invalid";
-
-		while (attempts < 5 && passValidity.equals("invalid")) {
-			userValidity = checkUserValidity(sc);
-			passValidity = checkPassValidity(sc);
-			if (passValidity.equals("invalid") || userValidity.equals("invalid")) {
-				userValidity = "invalid";
-				passValidity = "invalid";
-				attempts++;
-				if (attempts < 5) {
+		boolean isUserFound = false;
+		
+		while (attempts < 5 && !isUserFound) {
+			User user = checkUserValidity(sc);
+			
+			if (user == null) {
 					System.out.println("Invalid login, please try again");
-				}
+					attempts++;
+			} else {
+				isUserFound = true;
+				System.out.println("Welcome: " + user.getName());
+				break;
 			}
 		}
 
-		String name = app.name();
-		if (passValidity.equals("valid")) {
-			System.out.println("Welcome: " + name);
-		}
-		if (attempts >= 4) {
+		if (!isUserFound) {
 			System.out.println("Too many failed attempts, you are locked out.");
 		}
 	}
 
-	public static String checkUserValidity(Scanner sc) {
-		UserService app = new UserService();
+	public static User checkUserValidity(Scanner sc) {
+		UserService userService = new UserService();
 		System.out.println("Enter your email: ");
 		String inputEmail = sc.nextLine();
-		String usernameValidity = app.verifyUsername(inputEmail);
-		return usernameValidity;
-	}
-
-	public static String checkPassValidity(Scanner sc) {
-		UserService app = new UserService();
 		System.out.println("Enter your password: ");
 		String inputPassword = sc.nextLine();
-		String passValidity = app.verifyPassword(inputPassword);
-		return passValidity;
+		return userService.getValidUser(inputEmail, inputPassword);
 	}
 }
